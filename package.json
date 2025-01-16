@@ -1,0 +1,14 @@
+{
+  "name": "qa_automation_selfproject_ivory",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.49.1"
+  }
+}
