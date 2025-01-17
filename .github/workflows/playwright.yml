@@ -44,11 +44,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Копирование базы данных SQLite на сервер CI
-      - name: Copy SQLite database
-        run: |
-          cp ./my_database.db ./my_database.db
-
       # Запуск тестов API с Pytest
       - name: Run API tests
         run: |
