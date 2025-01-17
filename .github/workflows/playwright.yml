@@ -11,18 +11,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Установка Node.js для Playwright
+      # Установка Node.js для Playwright и сервера
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      # Установка зависимостей Node.js (для Playwright)
+      # Установка зависимостей Node.js (для Playwright и сервера)
       - name: Install Node.js dependencies
         run: npm ci
 
       # Установка браузеров для Playwright
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+
+      # Запуск сервера Express (нужно запустить сервер до тестов)
+      - name: Start Express server
+        run: |
+          nohup node server.js &
 
       # Запуск тестов Playwright
       - name: Run Playwright tests
@@ -38,6 +43,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      # Копирование базы данных SQLite на сервер CI
+      - name: Copy SQLite database
+        run: |
+          cp ./my_database.db ./my_database.db
 
       # Запуск тестов API с Pytest
       - name: Run API tests
