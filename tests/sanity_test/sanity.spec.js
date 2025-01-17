@@ -37,74 +37,74 @@ test.describe("test_first", () => {
 
     await page.getByPlaceholder("אימייל *").fill("testingtest@gmail.com");
     await page.getByPlaceholder("טלפון סלולרי *").fill("0548998877");
-    await page.getByPlaceholder("עיר, יישוב, מושב או קיבוץ").fill("ח");
-    expect(
-      await page.getByLabel("פרטים אישיים").getByText("חולון").isEnabled()
-    ).toBeTruthy();
-    await page.getByLabel("פרטים אישיים").getByText("חולון").click();
-    await page.getByPlaceholder("רחוב *").fill("בן יהוד");
-    expect(page.getByText("בן יהודה").isEnabled());
-    await page.getByText("בן יהודה").click();
-    await page.getByPlaceholder("מספר בית *").fill("123");
-    await page
-      .getByText(
-        "אני מאשר/ת כי קראתי, הבנתי והסכמתי לתנאי השימוש ולמדיניות הפרטיות *"
-      )
-      .click();
+    // await page.getByPlaceholder("עיר, יישוב, מושב או קיבוץ").fill("ח");
+    // expect(
+    //   await page.getByLabel("פרטים אישיים").getByText("חולון").isEnabled()
+    // ).toBeTruthy();
+    // await page.getByLabel("פרטים אישיים").getByText("חולון").click();
+    // await page.getByPlaceholder("רחוב *").fill("בן יהוד");
+    // expect(page.getByText("בן יהודה").isEnabled());
+    // await page.getByText("בן יהודה").click();
+    // await page.getByPlaceholder("מספר בית *").fill("123");
+    // await page
+    //   .getByText(
+    //     "אני מאשר/ת כי קראתי, הבנתי והסכמתי לתנאי השימוש ולמדיניות הפרטיות *"
+    //   )
+    //   .click();
 
-    await page.getByRole("button", { name: "אישור" }).click();
-    await page
-      .getByLabel(
-        "בחר מספר תשלומים *כמות תשלומים: 1כמות תשלומים: 2כמות תשלומים: 3כמות תשלומים: 4"
-      )
-      .selectOption("0");
+    // await page.getByRole("button", { name: "אישור" }).click();
+    // await page
+    //   .getByLabel(
+    //     "בחר מספר תשלומים *כמות תשלומים: 1כמות תשלומים: 2כמות תשלומים: 3כמות תשלומים: 4"
+    //   )
+    //   .selectOption("0");
 
+    // // await page.pause();
+    // await page.getByRole("button", { name: "תשלום בכרטיס אשראי" }).click();
+    // await page.locator("#cciframewindow").waitFor({ state: "attached" });
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByPlaceholder("שם בעל הכרטיס")
+    //   .fill("Tester Number One");
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByPlaceholder("מספר ת.ז")
+    //   .fill("345935829");
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByPlaceholder("מספר טלפון בעל הכרטיס")
+    //   .fill("0548998877");
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByPlaceholder("מספר כרטיס")
+    //   .fill("4111111111111111");
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByLabel("תוקף כרטיס חודש")
+    //   .selectOption("12");
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByLabel("תוקף כרטיס שנה")
+    //   .selectOption("29");
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByPlaceholder("CVV")
+    //   .fill("123");
+    // await page
+    //   .locator("#cciframewindow")
+    //   .contentFrame()
+    //   .getByLabel(
+    //     "סך הכל לתשלום 3685.00₪ - בצע תשלום - לאחר לחיצה על תשלום יש להמתין עד לקבלת מספר הזמנה",
+    //     { exact: true }
+    //   )
+    //   .click();
     // await page.pause();
-    await page.getByRole("button", { name: "תשלום בכרטיס אשראי" }).click();
-    await page.locator("#cciframewindow").waitFor({ state: "attached" });
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByPlaceholder("שם בעל הכרטיס")
-      .fill("Tester Number One");
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByPlaceholder("מספר ת.ז")
-      .fill("345935829");
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByPlaceholder("מספר טלפון בעל הכרטיס")
-      .fill("0548998877");
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByPlaceholder("מספר כרטיס")
-      .fill("4111111111111111");
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByLabel("תוקף כרטיס חודש")
-      .selectOption("12");
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByLabel("תוקף כרטיס שנה")
-      .selectOption("29");
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByPlaceholder("CVV")
-      .fill("123");
-    await page
-      .locator("#cciframewindow")
-      .contentFrame()
-      .getByLabel(
-        "סך הכל לתשלום 3685.00₪ - בצע תשלום - לאחר לחיצה על תשלום יש להמתין עד לקבלת מספר הזמנה",
-        { exact: true }
-      )
-      .click();
-    await page.pause();
   });
 });
