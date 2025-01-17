@@ -1,0 +1,15 @@
+# POST http://localhost:3000/customers/
+# Content-Type: application/json; charset=utf-8
+
+# {
+#     "name": "נוא לווי",
+#     "email": "testing234test@gmail.com",
+#     "phone": 548778899,
+#     "city": "חיפה",
+#     "street": "הצלפים",
+#     "home_number": 16,
+#     "description": "error_user"
+# }
+
+DELETE http://localhost:3000/customers/10003
+

@@ -43,8 +43,8 @@ Browser Setup
         -Apple iPhone 15 (Safari).
         -Google Pixel 5 (Chrome).
 Mock Server
-    -Mock APIs will run locally using json-server.
-    -Data, such as users and orders, will be stored in JSON files.
+    -Mock APIs will run locally using express+javascript.
+    -Data, such as users and orders, will be stored in SQLite Database.
 Database Setup
     -SQLite will replace the real database for testing purposes.
     -Database structure will include:
