@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
-export async function getCustomerFieldById(customer_type, fields) {
+export async function getCustomerFieldByDescription(customer_type, fields) {
   // Открываем базу данных
   const db = await open({
     filename: "./my_database.db", // Путь к файлу базы данных
@@ -12,7 +12,7 @@ export async function getCustomerFieldById(customer_type, fields) {
     // Формируем SQL-запрос с нужными полями
     const query = `SELECT ${fields.join(
       ", "
-    )} FROM customers WHERE description = ?`;
+    )} FROM customers INNER JOIN payment_cards ON customers.customer_id = payment_cards.customer_id WHERE description = ?`;
 
     // Выполняем запрос
     const row = await db.get(query, customer_type);

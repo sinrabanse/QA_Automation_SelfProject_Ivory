@@ -1,110 +1,104 @@
 import { test, expect } from "@playwright/test";
-import { getCustomerFieldById } from "../utils/moduleDB.js";
+import { testStandardCustomer } from "../utils/testCustomers.js";
+import { testLocators } from "../utils/testLocators.js";
+import { testURL } from "../utils/testURL.js";
 
 test.describe("test_first", () => {
   test("testing_test", async ({ page }) => {
-    await page.goto("https://www.ivory.co.il/");
-    await page.getByRole("textbox", { name: 'חפש/י מוצר/ים או מק"ט' }).click();
+    await page.goto(testURL.mainURL);
+    await page.locator(testLocators.searchPanel).fill("iphone 16");
+    await page.locator(testLocators.serachButton).click();
+    await page.locator(testLocators.checkboxFilterPhones).click();
+    await page.locator(testLocators.applyFilterButton).click();
+    await page.locator(testLocators.iPhone16WhiteCart).click();
+    await page.locator(testLocators.buyNowButton).click();
+    await page.locator(testLocators.closeRecommendationButton).click();
+    await page.locator(testLocators.firstContinueButton).click();
+    await page.locator(testLocators.chooseShopDropDown).click();
     await page
-      .getByRole("textbox", { name: 'חפש/י מוצר/ים או מק"ט' })
-      .fill("iphone 16");
-    await page.locator("#searchButton").click();
-    await page.getByText("טלפונים סלולרים וסמארטפונים (21)").click();
-    await page.getByRole("button", { name: "אישור" }).click();
+      .locator(testLocators.shopSearchField)
+      .fill(testStandardCustomer.city);
+    await page.locator(testLocators.chooseHolonShop).click();
+    await page.locator(testLocators.secondContinueButton).click();
     await page
-      .getByRole("link", {
-        name: "אייפון Apple iPhone 16 128GB בצבע כחול אייפון Apple iPhone 16 128GB בצבע כחול 3",
-      })
-      .click();
-    await page.getByRole("button", { name: "קנה עכשיו" }).click();
-    await page.locator("#buy_get_close").click();
-    await page.getByLabel("המשך לשלב הבא - סכום ₪").click();
-    await page.getByRole("textbox", { name: "בחר/י סניף" }).click();
-    await page.getByLabel("בחר סניף לאיסוף עצמי מתוך 42").fill("חולון");
-    await page.getByRole("treeitem", { name: "חולון" }).click();
-    await page.getByRole("button", { name: "המשך" }).click();
+      .locator(testLocators.fastBuyFullNameField)
+      .fill(testStandardCustomer.name);
+    await page
+      .locator(testLocators.fastBuyEmailField)
+      .fill(testStandardCustomer.email);
+    await page
+      .locator(testLocators.fastBuyPhoneField)
+      .fill(testStandardCustomer.phone);
+    await page
+      .locator(testLocators.fastBuyCityField)
+      .fill(testStandardCustomer.city);
+    await expect(page.locator(testLocators.fastBuyCityField)).toHaveValue(
+      testStandardCustomer.city
+    );
+    // await page.locator(testLocators.fastBuyStreetNameField).click();
+    await page.locator(testLocators.fastBuyStreetNameField).click();
+    await page
+      .locator(testLocators.fastBuyStreetNameField)
+      .fill(testStandardCustomer.street);
+    await page.keyboard.press("Backspace");
 
-    // await page.getByPlaceholder("שם מלא *").fill("אלכס ארח");
-    getCustomerFieldById("standard_user", ["name"])
-      .then(async (data) => {
-        const clientName = data.name;
-        await page.getByPlaceholder("שם מלא *").fill(clientName);
-        console.log("Имя клиента вставлено:", clientName);
-      })
-      .catch((err) => {
-        console.error("Ошибка:", err.message);
-      });
+    await page
+      .locator(
+        "//li[@data-title='%u05D1%u05DF%20%u05D9%u05D4%u05D5%u05D3%u05D4']"
+      )
+      .click(); //choose option in drop-down list
 
-    await page.getByPlaceholder("אימייל *").fill("testingtest@gmail.com");
-    await page.getByPlaceholder("טלפון סלולרי *").fill("0548998877");
-    // await page.getByPlaceholder("עיר, יישוב, מושב או קיבוץ").fill("ח");
-    // expect(
-    //   await page.getByLabel("פרטים אישיים").getByText("חולון").isEnabled()
-    // ).toBeTruthy();
-    // await page.getByLabel("פרטים אישיים").getByText("חולון").click();
-    // await page.getByPlaceholder("רחוב *").fill("בן יהוד");
-    // expect(page.getByText("בן יהודה").isEnabled());
-    // await page.getByText("בן יהודה").click();
-    // await page.getByPlaceholder("מספר בית *").fill("123");
-    // await page
-    //   .getByText(
-    //     "אני מאשר/ת כי קראתי, הבנתי והסכמתי לתנאי השימוש ולמדיניות הפרטיות *"
-    //   )
-    //   .click();
+    await page
+      .locator(testLocators.fastBuyHomeNumberField)
+      .fill(testStandardCustomer.home_number);
 
-    // await page.getByRole("button", { name: "אישור" }).click();
-    // await page
-    //   .getByLabel(
-    //     "בחר מספר תשלומים *כמות תשלומים: 1כמות תשלומים: 2כמות תשלומים: 3כמות תשלומים: 4"
-    //   )
-    //   .selectOption("0");
+    await page
+      .getByText(
+        "אני מאשר/ת כי קראתי, הבנתי והסכמתי לתנאי השימוש ולמדיניות הפרטיות *"
+      )
+      .click(); //terms of use checkbox
 
-    // // await page.pause();
-    // await page.getByRole("button", { name: "תשלום בכרטיס אשראי" }).click();
-    // await page.locator("#cciframewindow").waitFor({ state: "attached" });
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByPlaceholder("שם בעל הכרטיס")
-    //   .fill("Tester Number One");
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByPlaceholder("מספר ת.ז")
-    //   .fill("345935829");
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByPlaceholder("מספר טלפון בעל הכרטיס")
-    //   .fill("0548998877");
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByPlaceholder("מספר כרטיס")
-    //   .fill("4111111111111111");
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByLabel("תוקף כרטיס חודש")
-    //   .selectOption("12");
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByLabel("תוקף כרטיס שנה")
-    //   .selectOption("29");
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByPlaceholder("CVV")
-    //   .fill("123");
-    // await page
-    //   .locator("#cciframewindow")
-    //   .contentFrame()
-    //   .getByLabel(
-    //     "סך הכל לתשלום 3685.00₪ - בצע תשלום - לאחר לחיצה על תשלום יש להמתין עד לקבלת מספר הזמנה",
-    //     { exact: true }
-    //   )
-    //   .click();
-    // await page.pause();
+    await page.locator(testLocators.submitOrderFormButton).click();
+
+    await page.locator(testLocators.chooseNumberOfPaymentsField).click();
+    await page
+      .locator(testLocators.chooseNumberOfPaymentsField)
+      .selectOption("0");
+
+    await page.locator(testLocators.payWithCreditCardButton).click();
+
+    const frame = page.frameLocator(testLocators.paymentFrame);
+
+    await frame
+      .locator(testLocators.paymentNameField)
+      .fill(testStandardCustomer.name);
+
+    await frame
+      .locator(testLocators.paymentPassportField)
+      .fill(testStandardCustomer.personal_id);
+
+    await frame
+      .locator(testLocators.paymentPhoneField)
+      .fill(testStandardCustomer.phone);
+
+    await frame
+      .locator(testLocators.paymentCardNumberField)
+      .fill(testStandardCustomer.card_number);
+
+    await frame
+      .locator(testLocators.paymentCardExpMonthField)
+      .selectOption(testStandardCustomer.exp_month);
+
+    await frame
+      .locator(testLocators.paymentCardExpYearField)
+      .selectOption(testStandardCustomer.exp_year);
+
+    await frame
+      .locator(testLocators.paymentCVVField)
+      .fill(testStandardCustomer.cvv);
+
+    await page.pause();
+
+    // button[@id='submitBtn']
   });
 });

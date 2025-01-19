@@ -24,7 +24,7 @@ Testing Tools
     -A local database for storing mock data (e.g., orders, transactions).
     -Lightweight and easy to set up.
 4. Mocking Tools:
-    -Tools like json-server will be used to create local mock APIs, enabling simulation of API responses.
+    -Tools like express will be used to create local mock APIs, enabling simulation of API responses.
     -Allows testing functionality without real server dependencies.
 5. GitHub:
     -For version control and project hosting.
