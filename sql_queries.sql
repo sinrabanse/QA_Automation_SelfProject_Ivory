@@ -70,4 +70,3 @@
 --------исполение----------
 
 
-ALTER TABLE transactions_new RENAME TO transactions;

@@ -43,6 +43,23 @@ app.get("/customers/:id", (req, res) => {
   });
 });
 
+app.get("/transactions/:id", (req, res) => {
+  const { id } = req.params; // Получаем параметр id из URL
+  db.get(
+    "SELECT * FROM transactions WHERE transaction_id = ?",
+    [id],
+    (err, row) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else if (!row) {
+        res.status(404).json({ error: "User not found" });
+      } else {
+        res.json(row); // Возвращаем найденного пользователя
+      }
+    }
+  );
+});
+
 app.delete("/customers/:id", (req, res) => {
   const { id } = req.params;
   const sql = "DELETE FROM customers WHERE customer_id = ?";
