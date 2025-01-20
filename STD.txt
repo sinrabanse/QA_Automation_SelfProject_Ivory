@@ -1,0 +1,4 @@
+I will make sanity test
+I will make API test of sanity test:
+1)success payment
+2)error paymenet (card declined)

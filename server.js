@@ -1,9 +1,17 @@
 import express from "express";
 import sqlite3 from "sqlite3";
 import bodyParser from "body-parser";
+import morgan from "morgan";
+import cors from "cors";
+import { processPayment } from "./paymentService.js";
 
 // Создаём сервер express
 const app = express();
+
+app.use(cors());
+
+// Используем morgan для логирования всех запросов в консоль
+app.use(morgan("dev")); // Формат "dev" выводит короткие и полезные логи
 
 // Подключение к базе SQLite
 const db = new sqlite3.Database("./my_database.db");
@@ -76,6 +84,58 @@ app.post("/customers", (req, res) => {
       }
     }
   );
+});
+
+// Обработка оплаты
+
+app.post("/api/payment", async (req, res) => {
+  // Добавляем async перед функцией
+  console.log("Received payment request:", req.body);
+  const { amount, method, userId } = req.body;
+
+  // Сюда можно добавить логику обработки платежа
+
+  // Для теста имитируем успешный ответ
+  if (amount && method && userId) {
+    try {
+      const paymentId = await new Promise((resolve, reject) => {
+        db.get(
+          "SELECT seq FROM sqlite_sequence WHERE name = 'transactions'",
+          (err, row) => {
+            if (err) {
+              reject("Ошибка при получении seq из sqlite_sequence");
+            } else {
+              resolve(row ? Number(row.seq) + 1 : 1);
+            }
+          }
+        );
+      });
+
+      const status = "success";
+      const message = "Payment processed successfully";
+      res.status(200).json({
+        status: status,
+        message: message,
+        paymentId: paymentId,
+      });
+
+      processPayment(amount, status, message, paymentId);
+    } catch (err) {
+      res.status(500).json({
+        status: "error",
+        message: err,
+      });
+    }
+  } else {
+    const status = "fail";
+    const message = "Missing required parameters";
+    res.status(400).json({
+      status: status,
+      message: message,
+    });
+
+    processPayment(amount, status, message);
+  }
 });
 
 // Запускаем сервер

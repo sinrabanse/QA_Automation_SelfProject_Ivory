@@ -37,4 +37,5 @@ export const testLocators = {
   paymentCardExpMonthField: "//select[@id='expMonth']",
   paymentCardExpYearField: "//select[@id='expYear']",
   paymentCVVField: "//input[@id='cvv']",
+  submitOrderButton: "//button[@id='submitBtn']",
 };

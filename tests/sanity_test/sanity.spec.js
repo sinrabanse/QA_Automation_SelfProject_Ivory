@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { testStandardCustomer } from "../utils/testCustomers.js";
 import { testLocators } from "../utils/testLocators.js";
 import { testURL } from "../utils/testURL.js";
+import { mockPaymentHandler } from "../utils/mockPaymentHandler.js";
 
 test.describe("test_first", () => {
   test("testing_test", async ({ page }) => {
@@ -10,7 +11,7 @@ test.describe("test_first", () => {
     await page.locator(testLocators.serachButton).click();
     await page.locator(testLocators.checkboxFilterPhones).click();
     await page.locator(testLocators.applyFilterButton).click();
-    await page.locator(testLocators.iPhone16WhiteCart).click();
+    await page.locator(testLocators.iPhone16BlueCart).click();
     await page.locator(testLocators.buyNowButton).click();
     await page.locator(testLocators.closeRecommendationButton).click();
     await page.locator(testLocators.firstContinueButton).click();
@@ -97,8 +98,42 @@ test.describe("test_first", () => {
       .locator(testLocators.paymentCVVField)
       .fill(testStandardCustomer.cvv);
 
-    await page.pause();
+    // await page.pause();
 
-    // button[@id='submitBtn']
+    // await page.route("**", (route) => {
+    //   console.log(
+    //     `Перехвачен запрос на уровне страницы: ${route.request().url()}`
+    //   );
+    //   console.log("Метод:", route.request().method());
+    //   console.log("Заголовки:", route.request().headers());
+    //   console.log("Тело:", route.request().postData());
+
+    //   // Пропускаем запрос
+    //   route.continue();
+    // });
+    // await mockPaymentHandler(page, testLocators);
+
+    await mockPaymentHandler(page, testLocators);
+
+    const consoleMessages = [];
+    page.on("console", (msg) => consoleMessages.push(msg.text()));
+    await page.waitForTimeout(2000); // Подождите выполнения запроса
+    console.log("Console messages1:", consoleMessages);
+
+    await frame.locator(testLocators.submitOrderButton).click();
+
+    // const consoleMessages = [];
+    page.on("console", (msg) => consoleMessages.push(msg.text()));
+    await page.waitForTimeout(2000); // Подождите выполнения запроса
+    console.log("Console messages2:", consoleMessages);
+
+    // Проверяем, что ваш фейковый запрос успешно отработал
+    expect(
+      consoleMessages.some((msg) =>
+        msg.includes("Payment processed successfully")
+      )
+    ).toBeTruthy();
+
+    // await page.pause();
   });
 });

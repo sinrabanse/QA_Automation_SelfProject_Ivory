@@ -11,5 +11,19 @@
 #     "description": "error_user"
 # }
 
-DELETE http://localhost:3000/customers/10003
+# POST http://localhost:3000/api/payment
+# Content-Type: application/json; charset=utf-8
 
+# {
+#     "amount": 1000,
+#     "method": "credit_card",
+#     "userId": "test_user"
+# }
+
+POST http://localhost:3000/api/payment
+Content-Type: application/json; charset=utf-8
+
+{
+    "amount": 1000,
+    "method": "credit_card"
+}

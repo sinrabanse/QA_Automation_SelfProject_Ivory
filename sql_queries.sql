@@ -53,3 +53,21 @@
 
 -- INSERT INTO payment_cards (customer_id, card_number, card_type, exp_year, exp_month, cvv)
 -- VALUES (10002, '5555555555554444', 'Mastercard', '30', '11', '123');
+
+-- CREATE TABLE transactions (
+--     transaction_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Уникальный идентификатор карты
+--     amount TEXT NOT NULL,
+--     status TEXT NOT NULL,                -- Номер карты
+--     message TEXT NOT NULL,                  -- Тип карты (например, VISA, MasterCard)
+--     paymentId TEXT NOT NULL           -- Срок действия карты
+-- );
+
+-- UPDATE sqlite_sequence
+-- SET seq = "100001"
+-- WHERE name == "transactions"
+
+
+--------исполение----------
+
+
+ALTER TABLE transactions_new RENAME TO transactions;
