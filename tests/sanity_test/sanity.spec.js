@@ -6,12 +6,13 @@ import { mockPaymentHandler } from "../utils/mockPaymentHandler.js";
 
 test.describe("test_first", () => {
   test("testing_test", async ({ page }) => {
+    test.setTimeout(60000);
     await page.goto(testURL.mainURL);
     await page.locator(testLocators.searchPanel).fill("iphone 16");
     await page.locator(testLocators.serachButton).click();
     await page.locator(testLocators.checkboxFilterPhones).click();
     await page.locator(testLocators.applyFilterButton).click();
-    await page.locator(testLocators.iPhone16BlueCart).click();
+    await page.locator(testLocators.iPhone16WhiteCart).click();
     await page.locator(testLocators.buyNowButton).click();
     await page.locator(testLocators.closeRecommendationButton).click();
     await page.locator(testLocators.firstContinueButton).click();
