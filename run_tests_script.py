@@ -5,9 +5,16 @@ server_process = subprocess.Popen(['node', 'local_server.js'], stdout=subprocess
 
 try:
     # Running Playwright tests
-    subprocess.run(['npx', 'playwright', 'test'], check=True)
+    try:
+        subprocess.run(['npx', 'playwright', 'test'], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Playwright tests failed with error: {e}")
+    
     # Run API tests
-    subprocess.run('pytest')
+    try:
+        subprocess.run(['pytest'], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"API tests failed with error: {e}")
 finally:
     # Stopping the server after running tests
     server_process.terminate()  # Terminating the server process

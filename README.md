@@ -1,186 +1,139 @@
 # QA Automation Project with Playwright
 
-This repository contains automated tests for an e-commerce website offering electronics. The project showcases end-to-end testing capabilities using Playwright for UI testing, along with integration of test case tracking via SQLite.
+This repository contains automated tests for an e-commerce website offering electronics (/ivory.co.il/). The project showcases end-to-end testing capabilities using JavaScript with Playwright for UI testing, Python for API testing, along with integration of test case tracking via SQLite.
 
 ---
 
 ## **Project Structure**
 
 ### **Folder Structure**
+
 ```
 .
+├── sqlite_db
+│   ├── my_database.db
+│   └── test_tracking.db
 ├── tests
+│   ├── API_tests
+│   │   ├── test_API_BD.py
+│   │   ├── test_API_server.py
+│   │   └── ...
 │   ├── functionality_tests
 │   │   ├── sanity.spec.js
 │   │   ├── filtering.spec.js
-│   │   └── cart.spec.js
+│   │   └── ...
+│   ├── test_suits
+│   │   ├── functionality_suits.json
+│   │   └── ...
 │   └── utils
-│       └── testTracker.js
-├── test_suites
-│   └── functionality_suites.json
-├── initDB.js
-├── generateReport.js
+│       ├── testCustomers.js
+│       ├── testLocators.js
+│       └── ...
+├── local_server.js
+├── run_tests_script.py
+├── requirements.txt
+├── STD.txt
+├── STP.txt
 └── README.md
 ```
 
+- **`sqlite_db/`**: SQLite databases.
 - **`tests/`**: Contains all test files categorized into functional areas.
-- **`test_suites/`**: JSON files defining test cases and suites.
-- **`utils/`**: Utility scripts such as the test tracking system.
-- **`initDB.js`**: Initializes the SQLite database for tracking test case statuses.
-- **`generateReport.js`**: Generates a summary report of test statuses.
+- **`test_suits/`**: JSON files defining test cases and suites.
+- **`utils/`**: Utility scripts and data for tests.
+- **`local_server.js`**: Local server on port 3000 for mocking API testing (using JavaScript Express).
+- **`run_tests_script.py`**: Python script for running all tests.
+- **`STD.txt`**: Software Testing Description file.
+- **`STP.txt`**: Software Testing Plan file.
 
 ---
 
-## **Technologies Used**
+## **Features**
 
-- **Playwright**: JavaScript/TypeScript-based framework for browser automation.
-- **SQLite**: Lightweight database for tracking test case execution.
-- **Node.js**: For managing dependencies and executing scripts.
+### **1. UI Testing**
+
+- **Tool**: Playwright (JavaScript).
+- **Purpose**: Automates UI flows like product search, filtering, adding/removing products to/from the cart, and order placement.
+- **Key Files**: Located in `tests/functionality_tests/`.
+
+### **2. API Testing**
+
+- **Tool**: Python with Pytest.
+- **Purpose**: Verifies backend endpoints, including CRUD operations for customers, orders, and transactions.
+- **Key Files**: Located in `tests/API_tests/`.
+
+### **3. Test Case Tracking**
+
+- **Tool**: SQLite.
+- **Purpose**: Tracks test cases and execution status.
+- **Database Files**: Located in `sqlite_db/`.
 
 ---
 
-## **Test Workflow**
+## **Setup**
 
-### **Test Case Management**
-Test cases are defined in `test_suites/functionality_suites.json`. Example structure:
-```json
-{
-  "functionality_tests": [
-    {
-      "id": "TC1",
-      "title": "Sanity Test",
-      "steps": [
-        "Open website",
-        "Search for 'iPhone 16'",
-        "Select the product category",
-        "Select the product",
-        "Select fast order",
-        "Choose delivery type",
-        "Fill in customer details",
-        "Fill in payment details",
-        "Complete payment"
-      ],
-      "expected_result": "A confirmation message with the order number is displayed."
-    }
-  ]
-}
-```
+### **Prerequisites**
 
-### **Test Case Execution**
-Each test case is implemented in Playwright and dynamically tracks execution in SQLite.
+- Node.js (v23.2.0 or later).
+- Python 3.9 or later.
+- SQLite.
 
-**Example test (sanity.spec.js):**
-```javascript
-const { test, expect } = require('@playwright/test');
-const { updateTestCase } = require('../utils/testTracker');
+### **Installation**
 
-test('Sanity Test', async ({ page }) => {
-  try {
-    await page.goto('https://example.com');
-    await page.fill('#searchbar', 'iPhone 16');
-    await page.click('#search-button');
-    await page.click('text=Apple iPhone 16');
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/QA_Automation_Project.git
+   cd QA_Automation_Project
+   ```
+2. Install dependencies:
+   - **JavaScript**:
+     ```bash
+     npm install
+     ```
+   - **Python**:
+     ```bash
+     pip install -r requirements.txt
+     ```
 
-    // Verification
-    await expect(page).toHaveURL(/product/);
+---
 
-    // Mark test as passed
-    updateTestCase(1, 'Passed');
-  } catch (error) {
-    updateTestCase(1, 'Failed', error.message);
-    throw error;
-  }
-});
-```
+## **Usage**
 
-### **Test Case Tracking**
-Tracking is implemented using SQLite, with a `test_cases` table:
-- **id**: Unique identifier for each test case.
-- **title**: Description of the test.
-- **status**: Current status (`Not Run`, `Passed`, `Failed`).
-- **last_run**: Timestamp of the last execution.
-- **error_message**: Error details in case of failure.
+### **1. Run Local Server**
 
-**Utility functions (testTracker.js):**
-```javascript
-const Database = require('better-sqlite3');
-const db = new Database('test_tracking.db');
+Start the mock server for API testing:
 
-function updateTestCase(id, status, errorMessage = null) {
-  const stmt = db.prepare(`
-    UPDATE test_cases
-    SET status = ?, last_run = datetime('now'), error_message = ?
-    WHERE id = ?
-  `);
-  stmt.run(status, errorMessage, id);
-}
-
-module.exports = { updateTestCase };
-```
-
-### **Report Generation**
-A summary of all test cases can be generated by running:
 ```bash
-node generateReport.js
-```
-Example output:
-```
-Test Report:
-----------------------------
-Test Case: Sanity Test
-Status: Passed
-Last Run: 2025-01-24 12:00:00
-
-Test Case: Filtering Test
-Status: Failed
-Error: Element not found
-Last Run: 2025-01-24 12:01:00
+node local_server.js
 ```
 
----
+### **2. Execute Tests**
 
-## **Setup Instructions**
+- **Playwright Tests**:
+  ```bash
+  npx playwright test
+  ```
+- **Python API Tests**:
+  ```bash
+  pytest tests/API_tests/
+  ```
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd <repository-folder>
-   ```
+### **3. Track Test Results**
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+Results are automatically logged into the SQLite database. Use `run_tests_script.py` for combined test execution and result storage:
 
-3. **Initialize the database:**
-   ```bash
-   node initDB.js
-   ```
-
-4. **Run tests:**
-   ```bash
-   npx playwright test
-   ```
-
-5. **Generate report:**
-   ```bash
-   node generateReport.js
-   ```
-
----
-
-## **Limitations**
-
-1. **Authorization and Security Testing:** Not implemented due to lack of credentials and permissions.
-2. **Performance Testing:** Excluded due to lack of testing environment.
-3. **Mobile Compatibility Testing:** Requires separate test cases due to differing UI.
+```bash
+python run_tests_script.py
+```
 
 ---
 
 ## **Contributing**
-Feel free to fork this repository and submit pull requests with improvements or additional tests.
+
+Contributions are welcome! Feel free to open issues or submit pull requests for improvements and new features.
 
 ---
 
 ## **License**
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
