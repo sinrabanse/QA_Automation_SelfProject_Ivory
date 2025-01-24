@@ -1,0 +1,80 @@
+{
+  "functionality_tests": [
+    {
+      "id": "TC1",
+      "title": "Sanity test",
+      "steps": [
+        "Open website",
+        "Search for 'iPhone 16'",
+        "Select the product category",
+        "Select the product",
+        "Select fast order",
+        "Choose delivery type",
+        "Fill in customer details",
+        "Fill in payment details",
+        "Complete payment"
+      ],
+      "expected_result": "A confirmation message with the order number is displayed."
+    },
+    {
+      "id": "TC2",
+      "title": "Filtering of products",
+      "steps": [
+        "Open website",
+        "Search for 'iPhone 16'",
+        "Filter by product category",
+        "Verify results"
+      ],
+      "expected_result": "Only products relevant to the filter are displayed."
+    },
+    {
+      "id": "TC3",
+      "title": "Adding to Cart",
+      "steps": [
+        "Open website",
+        "Search for 'iPhone 16'",
+        "Choose the product",
+        "Add product to cart",
+        "Go to the cart",
+        "Verify results"
+      ],
+      "expected_result": "Product is displayed in the cart with correct details."
+    },
+    {
+      "id": "TC4",
+      "title": "Remove product from cart",
+      "steps": [
+        "Open website",
+        "Search for 'iPhone 16'",
+        "Choose the product",
+        "Add product to cart",
+        "Go to the cart",
+        "Delete product from cart"
+      ],
+      "expected_result": "Cart is empty."
+    },
+    {
+      "id": "TC5",
+      "title": "Choosing Delivery Option - Self Pickup",
+      "steps": [
+        "Open website",
+        "Search for 'iPhone 16'",
+        "Select the product",
+        "Select fast order",
+        "Choose delivery type - Self Pickup"
+      ],
+      "expected_result": "Step with filling customer information is displayed."
+    },
+    {
+      "id": "TC6",
+      "title": "Limit Testing",
+      "steps": [
+        "Open website",
+        "Search for 'iPhone 16'",
+        "Go to product card",
+        "Try add more than 20 units throught '+' button"
+      ],
+      "expected_result": "Error message is displayed."
+    }
+  ]
+}
