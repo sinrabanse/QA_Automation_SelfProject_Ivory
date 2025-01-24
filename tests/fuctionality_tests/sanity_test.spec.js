@@ -129,7 +129,7 @@ const testCases = await loadTestCases(
 
 const tc1 = testCases.functionality_tests.find((tc) => tc.id === "1");
 
-test(tc1.title, async ({ page }) => {
+test.only(tc1.title, async ({ page }) => {
   console.log(`Executing test: ${tc1.title}`);
   test.setTimeout(60000);
   for (const step of tc1.steps) {

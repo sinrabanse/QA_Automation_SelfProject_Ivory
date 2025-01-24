@@ -27,7 +27,7 @@ jobs:
       # Запуск сервера Express (нужно запустить сервер до тестов)
       - name: Start Express server
         run: |
-          nohup node server.js &
+          nohup node local_server.js &
 
       # Запуск тестов Playwright
       - name: Run Playwright tests

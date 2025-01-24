@@ -14,8 +14,8 @@ app.use(cors());
 app.use(morgan("dev")); // Формат "dev" выводит короткие и полезные логи
 
 // Подключение к базе SQLite
-const db_main = new sqlite3.Database("./my_database.db");
-const db_test_tracking = new sqlite3.Database("./test_tracking.db");
+const db_main = new sqlite3.Database("./sqlite_db/my_database.db");
+const db_test_tracking = new sqlite3.Database("./sqlite_db/test_tracking.db");
 
 // Настраиваем middlewares
 app.use(bodyParser.json());
@@ -201,3 +201,7 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+// If port in use arledy:
+// lsof -i tcp:3000
+// kill -9 PID

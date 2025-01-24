@@ -4,7 +4,7 @@ import { open } from "sqlite";
 export async function getCustomerFieldByDescription(customer_type, fields) {
   // Открываем базу данных
   const db = await open({
-    filename: "./my_database.db", // Путь к файлу базы данных
+    filename: "./sqlite_db/my_database.db", // Путь к файлу базы данных
     driver: sqlite3.Database,
   });
 

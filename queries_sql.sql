@@ -38,16 +38,16 @@
 -- SELECT customer_id, name, email, phone, city, street, home_number FROM customers;
 
 -- CREATE TABLE payment_cards (
---     card_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Уникальный идентификатор карты
---     customer_id INTEGER NOT NULL,             -- Внешний ключ, связанный с customers
---     card_number TEXT NOT NULL,                -- Номер карты
---     card_type TEXT NOT NULL,                  -- Тип карты (например, VISA, MasterCard)
---     exp_year TEXT NOT NULL,            -- Срок действия карты
+--     card_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+--     customer_id INTEGER NOT NULL,             
+--     card_number TEXT NOT NULL,               
+--     card_type TEXT NOT NULL,             
+--     exp_year TEXT NOT NULL,
 --     exp_month TEXT NOT NULL,
---     cvv TEXT NOT NULL,                     -- Код CVV
+--     cvv TEXT NOT NULL, 
 --     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) 
---       ON DELETE CASCADE                        -- Удалить карты, если клиент удалён
---       ON UPDATE CASCADE                        -- Обновить ключ, если customer_id изменится
+--       ON DELETE CASCADE 
+--       ON UPDATE CASCADE 
 -- );
 
 
@@ -55,11 +55,11 @@
 -- VALUES (10002, '5555555555554444', 'Mastercard', '30', '11', '123');
 
 -- CREATE TABLE transactions (
---     transaction_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Уникальный идентификатор карты
+--     transaction_id INTEGER PRIMARY KEY AUTOINCREMENT, 
 --     amount TEXT NOT NULL,
---     status TEXT NOT NULL,                -- Номер карты
---     message TEXT NOT NULL,                  -- Тип карты (например, VISA, MasterCard)
---     paymentId TEXT NOT NULL           -- Срок действия карты
+--     status TEXT NOT NULL, 
+--     message TEXT NOT NULL,   
+--     paymentId TEXT NOT NULL 
 -- );
 
 -- UPDATE sqlite_sequence
@@ -75,5 +75,7 @@
 --     SET last_run = NEW.run_time
 --     WHERE id = NEW.test_case_id;
 -- END;
---------исполение----------
+
+--------implementing on MAC (command+option+Q)----------
+
 
