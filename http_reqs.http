@@ -20,10 +20,14 @@
 #     "userId": "test_user"
 # }
 
-POST http://localhost:3000/api/payment
+# GET http://localhost:3000/test_cases
+# Content-Type: application/json; charset=utf-8
+
+POST http://localhost:3000/test_cases
 Content-Type: application/json; charset=utf-8
 
 {
-    "amount": 1000,
-    "method": "credit_card"
+    "id": 2,
+    "title": "Filtering of products",
+    "status": "Passed"
 }

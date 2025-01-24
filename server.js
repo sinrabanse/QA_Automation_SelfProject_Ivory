@@ -14,14 +14,15 @@ app.use(cors());
 app.use(morgan("dev")); // Формат "dev" выводит короткие и полезные логи
 
 // Подключение к базе SQLite
-const db = new sqlite3.Database("./my_database.db");
+const db_main = new sqlite3.Database("./my_database.db");
+const db_test_tracking = new sqlite3.Database("./test_tracking.db");
 
 // Настраиваем middlewares
 app.use(bodyParser.json());
 
 // Пример обработки GET-запросов через SQLite
 app.get("/customers", (req, res) => {
-  db.all("SELECT * FROM customers", [], (err, rows) => {
+  db_main.all("SELECT * FROM customers", [], (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
     } else {
@@ -32,20 +33,24 @@ app.get("/customers", (req, res) => {
 
 app.get("/customers/:id", (req, res) => {
   const { id } = req.params; // Получаем параметр id из URL
-  db.get("SELECT * FROM customers WHERE customer_id = ?", [id], (err, row) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else if (!row) {
-      res.status(404).json({ error: "User not found" });
-    } else {
-      res.json(row); // Возвращаем найденного пользователя
+  db_main.get(
+    "SELECT * FROM customers WHERE customer_id = ?",
+    [id],
+    (err, row) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else if (!row) {
+        res.status(404).json({ error: "User not found" });
+      } else {
+        res.json(row); // Возвращаем найденного пользователя
+      }
     }
-  });
+  );
 });
 
 app.get("/transactions/:id", (req, res) => {
   const { id } = req.params; // Получаем параметр id из URL
-  db.get(
+  db_main.get(
     "SELECT * FROM transactions WHERE transaction_id = ?",
     [id],
     (err, row) => {
@@ -64,7 +69,7 @@ app.delete("/customers/:id", (req, res) => {
   const { id } = req.params;
   const sql = "DELETE FROM customers WHERE customer_id = ?";
 
-  db.run(sql, [id], function (err) {
+  db_main.run(sql, [id], function (err) {
     if (err) {
       res.status(500).json({ error: err.message });
     } else if (this.changes === 0) {
@@ -81,7 +86,7 @@ app.post("/customers", (req, res) => {
     req.body;
   const sql =
     "INSERT INTO customers (name, email, phone, city, street, home_number, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
-  db.run(
+  db_main.run(
     sql,
     [name, email, phone, city, street, home_number, description],
     function (err) {
@@ -116,7 +121,7 @@ app.post("/api/payment", async (req, res) => {
   if (amount && method && userId) {
     try {
       const paymentId = await new Promise((resolve, reject) => {
-        db.get(
+        db_main.get(
           "SELECT seq FROM sqlite_sequence WHERE name = 'transactions'",
           (err, row) => {
             if (err) {
@@ -153,6 +158,42 @@ app.post("/api/payment", async (req, res) => {
 
     processPayment(amount, status, message);
   }
+});
+
+// Getting tests
+
+app.get("/test_cases", (req, res) => {
+  db_test_tracking.all("SELECT * FROM test_cases", (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+    res.json(rows);
+  });
+});
+
+// Post new test_case
+
+app.post("/test_cases", (req, res) => {
+  const { id, title, status } = req.body;
+  db_test_tracking.run(
+    "INSERT INTO test_cases (id, title, status, last_run) VALUES (?, ?, ?, datetime('now'))",
+    [id, title, status || "In Progress"],
+    function (err) {
+      if (err) return res.status(500).send(err.message);
+      res.json({ id: this.lastID });
+    }
+  );
+});
+
+//Post new test_run
+app.post("/test_runs", (req, res) => {
+  const { test_case_id, status, error_message } = req.body;
+  db_test_tracking.run(
+    "INSERT INTO test_runs (test_case_id, status, run_time, error_message) VALUES (?, ?, datetime('now'), ?)",
+    [test_case_id, status, error_message || null],
+    function (err) {
+      if (err) return res.status(500).send(err.message);
+      res.json({ "ID of test run:": this.lastID });
+    }
+  );
 });
 
 // Запускаем сервер

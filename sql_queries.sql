@@ -66,7 +66,14 @@
 -- SET seq = "100001"
 -- WHERE name == "transactions"
 
+-- To create TRIGGER:
 
+-- CREATE TRIGGER update_last_run
+-- AFTER INSERT ON test_runs
+-- BEGIN
+--     UPDATE test_cases
+--     SET last_run = NEW.run_time
+--     WHERE id = NEW.test_case_id;
+-- END;
 --------исполение----------
-
 

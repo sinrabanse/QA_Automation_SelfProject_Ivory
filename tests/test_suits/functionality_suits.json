@@ -1,7 +1,7 @@
 {
   "functionality_tests": [
     {
-      "id": "TC1",
+      "id": "1",
       "title": "Sanity test",
       "steps": [
         "Open website",
@@ -17,7 +17,7 @@
       "expected_result": "A confirmation message with the order number is displayed."
     },
     {
-      "id": "TC2",
+      "id": "2",
       "title": "Filtering of products",
       "steps": [
         "Open website",
@@ -28,7 +28,7 @@
       "expected_result": "Only products relevant to the filter are displayed."
     },
     {
-      "id": "TC3",
+      "id": "3",
       "title": "Adding to Cart",
       "steps": [
         "Open website",
@@ -41,7 +41,7 @@
       "expected_result": "Product is displayed in the cart with correct details."
     },
     {
-      "id": "TC4",
+      "id": "4",
       "title": "Remove product from cart",
       "steps": [
         "Open website",
@@ -54,7 +54,7 @@
       "expected_result": "Cart is empty."
     },
     {
-      "id": "TC5",
+      "id": "5",
       "title": "Choosing Delivery Option - Self Pickup",
       "steps": [
         "Open website",
@@ -66,7 +66,7 @@
       "expected_result": "Step with filling customer information is displayed."
     },
     {
-      "id": "TC6",
+      "id": "6",
       "title": "Limit Testing",
       "steps": [
         "Open website",

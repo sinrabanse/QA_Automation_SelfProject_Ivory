@@ -127,7 +127,7 @@ const testCases = await loadTestCases(
   "./tests/test_suits/functionality_suits.json"
 );
 
-const tc1 = testCases.functionality_tests.find((tc) => tc.id === "TC1");
+const tc1 = testCases.functionality_tests.find((tc) => tc.id === "1");
 
 test(tc1.title, async ({ page }) => {
   console.log(`Executing test: ${tc1.title}`);
