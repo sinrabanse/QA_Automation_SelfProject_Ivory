@@ -32,7 +32,7 @@ const testCases = await loadTestCases(
 
 const tc2 = testCases.functionality_tests.find((tc) => tc.id === "2");
 
-test.only(tc2.title, async ({ page }) => {
+test(tc2.title, async ({ page }) => {
   console.log(`Executing test: ${tc2.title}`);
   test.setTimeout(60000);
   let currentStep = null;
