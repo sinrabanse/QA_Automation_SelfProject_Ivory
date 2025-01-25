@@ -10,19 +10,18 @@ const loadTestCases = async (filePath) => {
 };
 
 const stepActions = {
-  "Open website": async (page) => {
-    await page.goto(testURL.mainURL);
+  "Open product URL": async (page) => {
+    await page.goto(testURL.iPhone16BlueURL);
   },
-  "Search for 'iPhone 16'": async (page) => {
-    await page.locator(testLocators.searchPanel).fill("iphone 16");
-    await page.locator(testLocators.serachButton).click();
+  "Add product to cart": async (page) => {
+    await page.locator(testLocators.addToCartButton).click();
+    await page.locator(testLocators.closeRecommendationButton).click();
   },
-  "Filter by product category": async (page) => {
-    await page.locator(testLocators.checkboxFilterPhones).click();
-    await page.locator(testLocators.applyFilterButton).click();
+  "Go to the cart": async (page) => {
+    await page.locator(testLocators.goToCartButton).click();
   },
   "Verify results": async (page) => {
-    await page.locator(testLocators.iPhone16BlueCart).click();
+    await expect(page).toHaveURL(testURL.cartUrl);
   },
 };
 
@@ -30,13 +29,13 @@ const testCases = await loadTestCases(
   "./tests/test_suits/functionality_suits.json"
 );
 
-const tc2 = testCases.functionality_tests.find((tc) => tc.id === "2");
+const tc3 = testCases.functionality_tests.find((tc) => tc.id === "3");
 
-test(tc2.title, async ({ page }) => {
-  console.log(`Executing test: ${tc2.title}`);
+test(tc3.title, async ({ page }) => {
+  console.log(`Executing test: ${tc3.title}`);
   let currentStep = null;
   try {
-    for (const step of tc2.steps) {
+    for (const step of tc3.steps) {
       currentStep = step;
       console.log(`Executing step: ${step}`);
       if (stepActions[step]) {
@@ -45,11 +44,11 @@ test(tc2.title, async ({ page }) => {
         console.warn(`No implementation found for step: ${step}`);
       }
     }
-    await testReporting(tc2.id, "Passed");
+    await testReporting(tc3.id, "Passed");
     console.log("Test passed successfully.");
   } catch (error) {
     console.error(`Test failed at step "${currentStep}": ${error.message}`);
-    await testReporting(tc2.id, "Failed", currentStep, error.message);
+    await testReporting(tc3.id, "Failed", currentStep, error.message);
     throw error;
   }
 });

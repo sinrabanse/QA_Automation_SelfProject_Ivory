@@ -31,7 +31,7 @@ POST http://localhost:3000/test_cases
 Content-Type: application/json; charset=utf-8
 
 {
-    "id": 2,
-    "title": "Filtering of products",
-    "status": "Passed"
+    "id": 6,
+    "title": "Limit Testing",
+    "status": ""
 }

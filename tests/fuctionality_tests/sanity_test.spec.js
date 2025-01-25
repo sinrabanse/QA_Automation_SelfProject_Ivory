@@ -4,6 +4,7 @@ import { testLocators } from "../utils/testLocators.js";
 import { testURL } from "../utils/testURL.js";
 import { mockPaymentHandler } from "../utils/mockPaymentHandler.js";
 import fs from "fs/promises";
+import { testReporting } from "../utils/testReporting.js";
 
 const loadTestCases = async (filePath) => {
   const data = await fs.readFile(filePath, "utf-8");
@@ -132,12 +133,22 @@ const tc1 = testCases.functionality_tests.find((tc) => tc.id === "1");
 test(tc1.title, async ({ page }) => {
   console.log(`Executing test: ${tc1.title}`);
   test.setTimeout(60000);
-  for (const step of tc1.steps) {
-    console.log(`Executing step: ${step}`);
-    if (stepActions[step]) {
-      await stepActions[step](page);
-    } else {
-      console.warn(`No implementation found for step: ${step}`);
+  let currentStep = null;
+  try {
+    for (const step of tc1.steps) {
+      currentStep = step;
+      console.log(`Executing step: ${step}`);
+      if (stepActions[step]) {
+        await stepActions[step](page);
+      } else {
+        console.warn(`No implementation found for step: ${step}`);
+      }
     }
+    await testReporting(tc1.id, "Passed");
+    console.log("Test passed successfully.");
+  } catch (error) {
+    console.error(`Test failed at step "${currentStep}": ${error.message}`);
+    await testReporting(tc1.id, "Failed", currentStep, error.message);
+    throw error;
   }
 });

@@ -31,9 +31,7 @@
       "id": "3",
       "title": "Adding to Cart",
       "steps": [
-        "Open website",
-        "Search for 'iPhone 16'",
-        "Choose the product",
+        "Open product URL",
         "Add product to cart",
         "Go to the cart",
         "Verify results"

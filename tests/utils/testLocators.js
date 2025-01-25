@@ -38,4 +38,6 @@ export const testLocators = {
   paymentCardExpYearField: "//select[@id='expYear']",
   paymentCVVField: "//input[@id='cvv']",
   submitOrderButton: "//button[@id='submitBtn']",
+  addToCartButton: "(//button[@id='addToCart'])[2]",
+  goToCartButton: "(//a[@class='cart-btn cart-target linkInited'])[1]",
 };
