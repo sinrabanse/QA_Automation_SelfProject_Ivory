@@ -16,6 +16,7 @@ const stepActions = {
     await page.goto(testURL.iPhone16BlueURL);
   },
   "Push 20 times on '+' button": async (page) => {
+    await page.waitForTimeout(2000); // technical pause for loading page
     for (let i = 0; i < 20; i++) {
       await page.locator(testLocators.addAmountProductButton).click();
     }
