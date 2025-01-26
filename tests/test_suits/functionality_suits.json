@@ -42,12 +42,11 @@
       "id": "4",
       "title": "Remove product from cart",
       "steps": [
-        "Open website",
-        "Search for 'iPhone 16'",
-        "Choose the product",
+        "Open product URL",
         "Add product to cart",
         "Go to the cart",
-        "Delete product from cart"
+        "Delete product from cart",
+        "Verify results"
       ],
       "expected_result": "Cart is empty."
     },
@@ -55,11 +54,10 @@
       "id": "5",
       "title": "Choosing Delivery Option - Self Pickup",
       "steps": [
-        "Open website",
-        "Search for 'iPhone 16'",
-        "Select the product",
+        "Open product URL",
         "Select fast order",
-        "Choose delivery type - Self Pickup"
+        "Choose delivery type - Self Pickup",
+        "Verify results"
       ],
       "expected_result": "Step with filling customer information is displayed."
     },
@@ -67,10 +65,9 @@
       "id": "6",
       "title": "Limit Testing",
       "steps": [
-        "Open website",
-        "Search for 'iPhone 16'",
-        "Go to product card",
-        "Try add more than 20 units throught '+' button"
+        "Open product URL",
+        "Push 20 times on '+' button",
+        "Verify error message"
       ],
       "expected_result": "Error message is displayed."
     }

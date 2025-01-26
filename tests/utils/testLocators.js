@@ -40,4 +40,9 @@ export const testLocators = {
   submitOrderButton: "//button[@id='submitBtn']",
   addToCartButton: "(//button[@id='addToCart'])[2]",
   goToCartButton: "(//a[@class='cart-btn cart-target linkInited'])[1]",
+  removeFromCartButton: "//a[@class='btn-remove-item-cart linkInited']",
+  emptyCartLocator: "//div[@class='col-12 title']",
+  numberInTheCartIcon: "(//span[@class='num-of-items'])[1]",
+  addAmountProductButton: "//button[@id='plusAmount']",
+  errorAmountProductField: "//div[@id='amountErrorMsg']",
 };

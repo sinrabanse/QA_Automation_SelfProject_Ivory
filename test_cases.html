@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Cases</title>
+    <style>
+      /* Общий стиль для всей страницы */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+      }
+
+      header {
+        background-color: #0073e6;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      nav ul li {
+        margin: 0;
+        padding: 0;
+      }
+
+      nav ul li a {
+        display: block;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      nav ul li a:hover,
+      nav ul li a.active {
+        background-color: #005bb5;
+        color: #f1f1f1;
+      }
+
+      /* Для остальной части страницы */
+      main {
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="/" class="{{ 'active' if request.path == '/' else '' }}"
+              >Test Runs</a
+            >
+          </li>
+          <li>
+            <a
+              href="/test_cases"
+              class="{{ 'active' if request.path == '/test_cases' else '' }}"
+              >Test Cases</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f9f9f9;
+          margin: 0;
+          padding: 20px;
+        }
+
+        h1 {
+          text-align: center;
+        }
+
+        table {
+          width: 80%;
+          margin: 20px auto;
+          border-collapse: collapse;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          background: #fff;
+        }
+
+        th,
+        td {
+          padding: 12px 15px;
+          text-align: left;
+          border: 1px solid #ddd;
+        }
+
+        th {
+          background-color: #0073e6;
+          color: white;
+        }
+
+        tr:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+
+        tr.passed {
+          background-color: #d4edda; /* Green background */
+          color: #155724; /* Dark green text */
+        }
+
+        tr.failed {
+          background-color: #f8d7da; /* Red background */
+          color: #721c24; /* Dark red text */
+        }
+      </style>
+      <h1>Test Cases</h1>
+      <table>
+        <tr>
+          <th>Case ID</th>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Last Run</th>
+          <th>Error Message</th>
+        </tr>
+        {% for case in cases %}
+        <tr class="{{ 'passed' if case[2] == 'Passed' else 'failed' }}">
+          <td>{{ case[0] }}</td>
+          <td>{{ case[1] }}</td>
+          <td>{{ case[2] }}</td>
+          <td>{{ case[3] }}</td>
+          <td>{{ case[4] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </main>
+  </body>
+</html>

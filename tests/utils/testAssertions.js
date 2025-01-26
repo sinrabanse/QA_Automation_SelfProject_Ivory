@@ -1,8 +1,5 @@
 export const testAssertions = {
-  locked_out_user_error_text:
-    "Epic sadface: Sorry, this user has been locked out.",
-  wrong_pass_or_user_text:
-    "Epic sadface: Username and password do not match any user in this service",
-  required_password_message: "Epic sadface: Password is required",
-  required_username_message: "Epic sadface: Username is required",
+  empty_cart_text:
+    "סל הקניות שלך ריק, שווה להרשם או להתחבר וליהנות מחוויית קנייה מעולה",
+  error_amount_product_text: "הרכישה באתר מוגבלת ל-20 יחידות ללקוח",
 };
