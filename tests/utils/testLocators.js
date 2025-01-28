@@ -45,4 +45,6 @@ export const testLocators = {
   numberInTheCartIcon: "(//span[@class='num-of-items'])[1]",
   addAmountProductButton: "//button[@id='plusAmount']",
   errorAmountProductField: "//div[@id='amountErrorMsg']",
+  priceProductInCard: "//span[@class='print-actual-price']",
+  priceProductInCart: "(//span[@id='price_with_upgrade'])[2]",
 };
