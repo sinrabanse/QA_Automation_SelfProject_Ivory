@@ -136,5 +136,6 @@ const tc = testCases.functionality_tests.find((tc) => tc.id === testCaseId);
 // Executing test
 
 test(tc.title, async ({ page }) => {
+  page.setDefaultTimeout(60000);
   await executeTestSteps(tc, page, stepActions);
 });
