@@ -4,21 +4,26 @@ import { testURL } from "../utils/testURL.js";
 import { executeTestSteps } from "../utils/executeTestSteps.js";
 import fs from "fs/promises";
 import { fileURLToPath } from "url";
+import { TIMEOUT } from "dns";
 
 const stepActions = {
   "Open website": async (page) => {
     await page.goto(testURL.mainURL);
+    await expect(page).toHaveURL(testURL.mainURL);
   },
   "Search for 'iPhone 16'": async (page) => {
     await page.locator(testLocators.searchPanel).fill("iphone 16");
     await page.locator(testLocators.serachButton).click();
+    await page.waitForTimeout(2000); // technical pause for URL update
+    expect(page.url()).toBe(testURL.searchIPhone16URL);
   },
   "Filter by product category": async (page) => {
     await page.locator(testLocators.checkboxFilterPhones).click();
     await page.locator(testLocators.applyFilterButton).click();
   },
   "Verify results": async (page) => {
-    await page.locator(testLocators.iPhone16BlueCart).click();
+    await expect(page.locator(testLocators.checkboxFilterPhones)).toBeChecked();
+    expect(page.url()).toBe(testURL.filteredIPhone16URL);
   },
 };
 

@@ -6,25 +6,44 @@ import { mockPaymentHandler } from "../utils/mockPaymentHandler.js";
 import { executeTestSteps } from "../utils/executeTestSteps.js";
 import fs from "fs/promises";
 import { fileURLToPath } from "url";
+import { testUIElements } from "../utils/testUIElements.js";
+
+const assertData = {};
 
 const stepActions = {
   "Open website": async (page) => {
     await page.goto(testURL.mainURL);
+    await expect(page).toHaveURL(testURL.mainURL);
   },
   "Search for 'iPhone 16'": async (page) => {
     await page.locator(testLocators.searchPanel).fill("iphone 16");
     await page.locator(testLocators.serachButton).click();
+    await page.waitForTimeout(2000); // technical pause for URL update
+    expect(page.url()).toBe(testURL.searchIPhone16URL);
   },
   "Select the product category": async (page) => {
     await page.locator(testLocators.checkboxFilterPhones).click();
     await page.locator(testLocators.applyFilterButton).click();
+    await expect(page.locator(testLocators.checkboxFilterPhones)).toBeChecked();
+    expect(page.url()).toBe(testURL.filteredIPhone16URL);
   },
   "Select the product": async (page) => {
     await page.locator(testLocators.iPhone16BlueCart).click();
+    assertData.priceProduct = await page
+      .locator(testLocators.priceProductInCard)
+      .innerText();
   },
   "Select fast order": async (page) => {
     await page.locator(testLocators.buyNowButton).click();
     await page.locator(testLocators.closeRecommendationButton).click();
+    expect(page.url()).toBe(testURL.cartUrl);
+    const priceProductInCart = await page
+      .locator(testLocators.priceProductInCart)
+      .innerText();
+    const priceProductInCartClean = priceProductInCart
+      .replace(/[^\d,]/g, "")
+      .trim();
+    expect(priceProductInCartClean).toBe(assertData.priceProduct);
     await page.locator(testLocators.firstContinueButton).click();
   },
   "Choose delivery type": async (page) => {
@@ -35,6 +54,8 @@ const stepActions = {
       .fill(testStandardCustomer.city);
     await page.locator(testLocators.chooseHolonShop).click();
     await page.locator(testLocators.secondContinueButton).click();
+    await page.waitForURL(testURL.personalInfoURL);
+    expect(page.url()).toBe(testURL.personalInfoURL);
   },
   "Fill in customer details": async (page) => {
     await page
@@ -65,12 +86,10 @@ const stepActions = {
     await page
       .locator(testLocators.fastBuyHomeNumberField)
       .fill(testStandardCustomer.home_number);
-    await page
-      .getByText(
-        "אני מאשר/ת כי קראתי, הבנתי והסכמתי לתנאי השימוש ולמדיניות הפרטיות *"
-      )
-      .click(); //terms of use checkbox
+    await page.getByText(testUIElements.termsOfUseCheckboxText).click();
     await page.locator(testLocators.submitOrderFormButton).click();
+    await page.waitForURL(testURL.paymentOptionURL);
+    expect(page.url()).toBe(testURL.paymentOptionURL);
   },
   "Fill in payment details": async (page) => {
     await page.locator(testLocators.chooseNumberOfPaymentsField).click();
@@ -78,6 +97,7 @@ const stepActions = {
       .locator(testLocators.chooseNumberOfPaymentsField)
       .selectOption("0");
     await page.locator(testLocators.payWithCreditCardButton).click();
+    await page.waitForSelector(testLocators.paymentFrame);
     const frame = page.frameLocator(testLocators.paymentFrame);
     await frame
       .locator(testLocators.paymentNameField)
@@ -135,6 +155,7 @@ const tc = testCases.functionality_tests.find((tc) => tc.id === testCaseId);
 // Executing test
 
 test(tc.title, async ({ page }) => {
+  test.setTimeout(120_000);
   page.setDefaultTimeout(60000);
   await executeTestSteps(tc, page, stepActions);
 });

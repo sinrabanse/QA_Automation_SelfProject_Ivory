@@ -6,9 +6,15 @@ import { executeTestSteps } from "../utils/executeTestSteps.js";
 import fs from "fs/promises";
 import { fileURLToPath } from "url";
 
+const assertData = {};
+
 const stepActions = {
   "Open product URL": async (page) => {
     await page.goto(testURL.iPhone16BlueURL);
+    await expect(page).toHaveURL(testURL.iPhone16BlueURL);
+    assertData.priceProduct = await page
+      .locator(testLocators.priceProductInCard)
+      .innerText();
   },
   "Add product to cart": async (page) => {
     await page.waitForTimeout(2000); // technical pause for adding to cart animation
@@ -20,6 +26,14 @@ const stepActions = {
   },
   "Go to the cart": async (page) => {
     await page.locator(testLocators.goToCartButton).click();
+    expect(page.url()).toBe(testURL.cartUrl);
+    const priceProductInCart = await page
+      .locator(testLocators.priceProductInCart)
+      .innerText();
+    const priceProductInCartClean = priceProductInCart
+      .replace(/[^\d,]/g, "")
+      .trim();
+    expect(priceProductInCartClean).toBe(assertData.priceProduct);
   },
   "Delete product from cart": async (page) => {
     await page.locator(testLocators.removeFromCartButton).click();
