@@ -79,7 +79,6 @@ const stepActions = {
       .selectOption("0");
     await page.locator(testLocators.payWithCreditCardButton).click();
     const frame = page.frameLocator(testLocators.paymentFrame);
-    await frame.locator(testLocators.paymentNameField).waitFor();
     await frame
       .locator(testLocators.paymentNameField)
       .fill(testStandardCustomer.name);
