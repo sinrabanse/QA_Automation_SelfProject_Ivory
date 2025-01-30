@@ -74,4 +74,4 @@ def test_cases():
     return render_template('test_cases.html', cases=cases, current_path=request.path)
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5001, debug=True)

@@ -27,11 +27,11 @@
 
 ##### implementing (Send Request)
 
-POST http://localhost:3000/test_cases
+PUT http://localhost:3000/api/payment
 Content-Type: application/json; charset=utf-8
 
 {
-    "id": 6,
-    "title": "Limit Testing",
-    "status": ""
+    "transaction_id": 100060,
+    "status": "Updated status",
+    "message": "Updated message"
 }

@@ -3,7 +3,7 @@ import sqlite3 from "sqlite3";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
-import { processPayment } from "./paymentService.js";
+import { processPayment, updatePayment } from "./paymentService.js";
 
 // Создаём сервер express
 const app = express();
@@ -160,6 +160,55 @@ app.post("/api/payment", async (req, res) => {
   }
 });
 
+// Updating transaction
+
+app.put("/api/payment", async (req, res) => {
+  // Добавляем async перед функцией
+  console.log("Received payment update request:", req.body);
+  const { transaction_id, status, message } = req.body;
+
+  // Для теста имитируем успешный ответ
+  if (transaction_id && status && message) {
+    try {
+      const new_status = status;
+      const new_message = message;
+      res.status(200).json({
+        status: new_status,
+        message: new_message,
+        paymentId: transaction_id,
+      });
+
+      updatePayment(transaction_id, new_status, new_message);
+    } catch (err) {
+      res.status(500).json({
+        status: "error",
+        message: err,
+      });
+    }
+  } else if (transaction_id && status) {
+    const new_message = "Updated without message";
+    res.status(400).json({
+      status: status,
+      message: new_message,
+    });
+
+    updatePayment(transaction_id, status, new_message);
+  } else if (transaction_id && message) {
+    const new_status = "Updated without status";
+    res.status(400).json({
+      status: new_status,
+      message: message,
+    });
+
+    updatePayment(transaction_id, new_status, message);
+  } else {
+    res.status(400).json({
+      Error: "Can't update without transaction ID",
+    });
+    console.log("Can't update without transaction ID");
+  }
+});
+
 // Getting tests
 
 app.get("/test_cases", (req, res) => {
@@ -202,6 +251,6 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-// If port in use arledy:
+// If port in use already:
 // lsof -i tcp:3000
 // kill -9 PID
