@@ -78,3 +78,10 @@
 
 --------implementing on MAC (command+option+Q)----------
 
+CREATE TRIGGER update_last_error_message_API
+AFTER INSERT ON test_runs_API
+BEGIN
+    UPDATE test_cases_API
+    SET error_message = NEW.error_message
+    WHERE id = NEW.test_case_id;
+END;

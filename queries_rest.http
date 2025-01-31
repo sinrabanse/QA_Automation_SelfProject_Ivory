@@ -27,11 +27,9 @@
 
 ##### implementing (Send Request)
 
-PUT http://localhost:3000/api/payment
+DELETE http://localhost:3000/api/payment
 Content-Type: application/json; charset=utf-8
 
 {
-    "transaction_id": 100060,
-    "status": "Updated status",
-    "message": "Updated message"
+    "transaction_id": 100061
 }

@@ -1,0 +1,38 @@
+{
+  "API_tests": [
+    {
+      "id": 1,
+      "title": "Create new transaction",
+      "description": "Create a new payment transaction with amount 1000000",
+      "request": {
+        "amount": 1000000,
+        "method": "credit_card",
+        "userId": "test_user"
+      },
+      "expected_status_code": 200,
+      "expected_result": "Transaction created"
+    },
+    {
+      "id": 2,
+      "title": "Update existed transaction",
+      "description": "Change an existing transaction",
+      "request": {
+        "transaction_id": 12345,
+        "status": "Updated status",
+        "message": "Updated message"
+      },
+      "expected_status_code": 200,
+      "expected_result": "Transaction updated"
+    },
+    {
+      "id": 3,
+      "title": "Delete existed transaction",
+      "description": "Delete an existing transaction",
+      "request": {
+        "transaction_id": 12345
+      },
+      "expected_status_code": 200,
+      "expected_result": "Transaction deleted"
+    }
+  ]
+}

@@ -3,7 +3,11 @@ import sqlite3 from "sqlite3";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
-import { processPayment, updatePayment } from "./paymentService.js";
+import {
+  processPayment,
+  updatePayment,
+  deletePayment,
+} from "./paymentService.js";
 
 // Создаём сервер express
 const app = express();
@@ -206,6 +210,33 @@ app.put("/api/payment", async (req, res) => {
       Error: "Can't update without transaction ID",
     });
     console.log("Can't update without transaction ID");
+  }
+});
+
+app.delete("/api/payment", async (req, res) => {
+  console.log("Received payment update request:", req.body);
+  const { transaction_id } = req.body;
+
+  if (!transaction_id) {
+    console.log("Can't delete this transaction");
+    return res.status(400).json({
+      error: "Can't delete this transaction",
+    });
+  }
+
+  try {
+    // Дожидаемся завершения удаления перед отправкой ответа
+    await deletePayment(transaction_id);
+
+    return res.status(200).json({
+      paymentId: transaction_id,
+    });
+  } catch (err) {
+    console.error("Error deleting payment:", err.message);
+    return res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
   }
 });
 
