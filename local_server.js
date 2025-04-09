@@ -69,30 +69,58 @@ app.get("/transactions/:id", (req, res) => {
   );
 });
 
-app.delete("/customers/:id", (req, res) => {
-  const { id } = req.params;
+app.delete("/customers", (req, res) => {
+  const { customer_id } = req.body;
   const sql = "DELETE FROM customers WHERE customer_id = ?";
 
-  db_main.run(sql, [id], function (err) {
+  db_main.run(sql, [customer_id], function (err) {
     if (err) {
       res.status(500).json({ error: err.message });
     } else if (this.changes === 0) {
       res.status(404).json({ message: "User not found" });
     } else {
-      res.json({ message: `User with id ${id} deleted successfully` });
+      res.json({
+        customer_id: customer_id,
+        message: `User with id ${customer_id} deleted successfully`,
+      });
+    }
+  });
+});
+// PUT customers
+
+app.put("/customers", async (req, res) => {
+  const { customer_id, name, email } = req.body;
+  const sql = "UPDATE customers SET name = ?, email = ? WHERE customer_id = ?";
+  db_main.run(sql, [name, email, customer_id], function (err) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json({
+        customer_id: customer_id,
+        name,
+        email,
+      });
     }
   });
 });
 
-// Пример обработки POST-запросов через SQLite
+// POST customers
 app.post("/customers", (req, res) => {
-  const { name, email, phone, city, street, home_number, description } =
-    req.body;
+  const {
+    name,
+    email,
+    phone,
+    city,
+    street,
+    home_number,
+    description,
+    personal_id,
+  } = req.body;
   const sql =
-    "INSERT INTO customers (name, email, phone, city, street, home_number, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO customers (name, email, phone, city, street, home_number, description, personal_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   db_main.run(
     sql,
-    [name, email, phone, city, street, home_number, description],
+    [name, email, phone, city, street, home_number, description, personal_id],
     function (err) {
       if (err) {
         res.status(500).json({ error: err.message });
@@ -106,6 +134,7 @@ app.post("/customers", (req, res) => {
           street,
           home_number,
           description,
+          personal_id,
         });
       }
     }

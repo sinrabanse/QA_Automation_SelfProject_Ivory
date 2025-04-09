@@ -11,45 +11,45 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Установка Node.js для Playwright и сервера
+      # Installing Node.js for Playwright and express-server
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      # Установка зависимостей Node.js (для Playwright и сервера)
+      # Installing dependencies Node.js (for Playwright and express-server)
       - name: Install Node.js dependencies
         run: npm ci
 
-      # Установка браузеров для Playwright
+      # Installing browsers for Playwright
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # Запуск сервера Express (нужно запустить сервер до тестов)
+      # Starting Express server
       - name: Start Express server
         run: |
           nohup node local_server.js &
 
-      # Запуск тестов Playwright
+      # Running Playwright tests
       - name: Run Playwright tests
         run: npx playwright test
 
-      # Установка Python для API тестов
+      # Installing Python for API tests
       - uses: actions/setup-python@v2
         with:
           python-version: "3.9"
 
-      # Установка зависимостей для Python
+      # Installing Python dependencies
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Запуск тестов API с Pytest
+      # Running API tests with Pytest
       - name: Run API tests
         run: |
           pytest --maxfail=1 --disable-warnings -q
 
-      # Загрузка отчёта о Playwright
+      # Uploading report of Playwright
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:

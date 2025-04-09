@@ -33,6 +33,45 @@
       },
       "expected_status_code": 200,
       "expected_result": "Transaction deleted"
+    },
+    {
+      "id": 4,
+      "title": "Create new customer",
+      "description": "Create a new customer",
+      "request": {
+        "name": "Added through API test",
+        "email": "throughAPItest@gmail.com",
+        "phone": "0548112233",
+        "city": "Test Town",
+        "street": "Test Street",
+        "home_number": "13",
+        "description": "API_testing_user",
+        "personal_id": "123456789"
+      },
+      "expected_status_code": 200,
+      "expected_result": "Customer created"
+    },
+    {
+      "id": 5,
+      "title": "Update existed customer",
+      "description": "Change an existing customer",
+      "request": {
+        "customer_id": 10003,
+        "name": "Updated name",
+        "email": "UpdatedthroughAPItest@gmail.com"
+      },
+      "expected_status_code": 200,
+      "expected_result": "Customer updated"
+    },
+    {
+      "id": 6,
+      "title": "Delete existed customer",
+      "description": "Delete an existing customer",
+      "request": {
+        "customer_id": 10003
+      },
+      "expected_status_code": 200,
+      "expected_result": "Customer deleted"
     }
   ]
 }

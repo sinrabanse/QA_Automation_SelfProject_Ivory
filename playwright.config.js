@@ -42,7 +42,7 @@ export default defineConfig({
       fullPage: true,
     },
     video: "retain-on-failure",
-    headless: true,
+    headless: false,
   },
 
   /* Configure projects for major browsers */

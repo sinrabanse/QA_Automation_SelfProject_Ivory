@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import sqlite3
 
-app = Flask(__name__, template_folder="")
+app = Flask(__name__, template_folder="templates")
 
 # Route to display test results
 @app.route('/')

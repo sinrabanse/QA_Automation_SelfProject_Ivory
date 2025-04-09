@@ -14,21 +14,12 @@ Test the selection of delivery options (e.g., standard or expedited delivery).
 Validate the behavior when adding more than 20 units of a single product to the cart, including scenarios where some units are already in the cart.
 
 API:
-1)Database operations:
     -Addind new customer
-    -Adding new order
     -Adding new transaction
     -Changing existed customer
-    -Changing existed order
     -Changing existed transaction
     -Deleting existed customer
-    -Deleting existed order
     -Deleting existed transaction
-2)Server-Side Operations (express):
-    -Getting info about existed customer
-    -Getting info about existed order
-    -Getting info about existed transaction
-    -Handle errors for invalid or non-existent customers, orders, or transactions during addition, update, or deletion.
 
 Compatibility:
 1)Ensure compatibility across the following browsers (Automated testing performed via Playwright).:
