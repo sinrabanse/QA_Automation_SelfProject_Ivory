@@ -48,7 +48,7 @@ const stepActions = {
 const testSuitPath = "./tests/test_suits/functionality_suits.json";
 const __filename = fileURLToPath(import.meta.url);
 const fileName = __filename.split("/").pop();
-const testCaseId = fileName.match(/tc(\d+)/)[1]; // take number of test case from name of file
+const testCaseId = fileName.match(/tc(\d+)/)[1];
 const loadTestCases = async (filePath) => {
   const data = await fs.readFile(filePath, "utf-8");
   return JSON.parse(data);
