@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Test Runs</title>
+    <style>
+      /* Общий стиль для всей страницы */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+      }
+
+      header {
+        background-color: #0073e6;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      nav ul li {
+        margin: 0;
+        padding: 0;
+      }
+
+      nav ul li a {
+        display: block;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      nav ul li a:hover,
+      nav ul li a.active {
+        background-color: #005bb5;
+        color: #f1f1f1;
+      }
+
+      /* Для остальной части страницы */
+      main {
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <script>
+    function filterTable() {
+      const input = document.getElementById("filterInput").value.toLowerCase();
+      const rows = document.querySelectorAll("table tr:not(:first-child)"); // Пропускаем заголовок
+
+      rows.forEach((row) => {
+        const testCaseId = row.cells[1]?.textContent.toLowerCase(); // Вторая колонка (индекс 1)
+        if (testCaseId.includes(input)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  </script>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="/" class="{{ 'active' if request.path == '/' else '' }}"
+              >Test Runs</a
+            >
+          </li>
+          <li>
+            <a
+              href="/test_cases"
+              class="{{ 'active' if request.path == '/test_cases' else '' }}"
+              >Test Cases</a
+            >
+          </li>
+          <li>
+            <a
+              href="/test_runs_api"
+              class="{{ 'active' if request.path == '/test_runs_api' else '' }}"
+              >API Test Runs</a
+            >
+          </li>
+          <li>
+            <a
+              href="/test_cases_api"
+              class="{{ 'active' if request.path == '/test_cases_api' else '' }}"
+              >API Test Cases</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f9f9f9;
+          margin: 0;
+          padding: 20px;
+        }
+
+        h1 {
+          text-align: center;
+        }
+
+        table {
+          width: 80%;
+          margin: 20px auto;
+          border-collapse: collapse;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+          background: #fff;
+          font-size: 12px;
+        }
+
+        th,
+        td {
+          padding: 8px 10px;
+          text-align: left;
+          border: 1px solid #ccc;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+          width: 120px; /* Ширина для колонки Run Time */
+          text-align: center; /* Центрирование текста для красоты */
+        }
+
+        th {
+          background-color: #0073e6;
+          color: white;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+
+        tr.passed {
+          background-color: #d4edda; /* Green background */
+          color: #155724; /* Dark green text */
+        }
+
+        tr.failed {
+          background-color: #f8d7da; /* Red background */
+          color: #721c24; /* Dark red text */
+        }
+
+        .chart-container {
+          width: 80%;
+          margin: 20px auto;
+          padding: 20px;
+          background: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        canvas {
+          max-width: 400px;
+          max-height: 400px;
+          display: block;
+          margin: 0 auto;
+        }
+      </style>
+      <!-- Линейный график для количества тестов по дням -->
+      <div class="chart-container">
+        <h2>Test Execution Summary</h2>
+        <canvas id="lineChart"></canvas>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        // Данные для линейного графика
+        const chartData = {{ chart_data | tojson }};
+
+        const ctx2 = document.getElementById('lineChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',  // Линейный график
+            data: {
+                labels: chartData.labels,  // Даты
+                datasets: [{
+                    label: 'Passed',
+                    data: chartData.passed,  // Количество Passed
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Failed',
+                    data: chartData.failed,  // Количество Failed
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.raw + ' tests';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+      </script>
+      <h1>API Test Runs</h1>
+      <input
+        type="text"
+        id="filterInput"
+        placeholder="Filter by API Test Case ID"
+        onkeyup="filterTable()"
+        style="
+          display: block;
+          margin: 10px auto;
+          padding: 8px;
+          width: 200px;
+          font-size: 14px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        "
+      />
+      <table>
+        <tr>
+          <th>Run ID</th>
+          <th>Test Case ID</th>
+          <th>Status</th>
+          <th>Run Time</th>
+          <th>Error Message</th>
+        </tr>
+        {% for result in results %}
+        <tr class="{{ 'passed' if result[2] == 'Passed' else 'failed' }}">
+          <td>{{ result[0] }}</td>
+          <td>{{ result[1] }}</td>
+          <td>{{ result[2] }}</td>
+          <td>{{ result[3] }}</td>
+          <td>{{ result[4] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </main>
+  </body>
+</html>
