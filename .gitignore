@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Pytest
+.pytest_cache/
+*.coverage
+
+# Virtualenv
+venv/
+
+# Node.js
+node_modules/
+
+# Playwright
+playwright-report/
+test-results/
+/playwright/.cache/
+
+# System (macOS)
+.DS_Store
+*.log
+*.tmp
+*.out
+
+# VS Code
+.vscode/

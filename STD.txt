@@ -1,0 +1,38 @@
+Scenarios (Functional Tests)
+Functionality:
+1)Sanity Testing:
+Verify the full customer journey (from product selection to order placement).
+2)Filtering:
+Validate the functionality of filters (e.g., by category, price, brand).
+3)Adding to Cart:
+Ensure products can be successfully added to the cart.
+4)Deleting from Cart:
+Verify that products can be removed from the cart.
+5)Choosing Delivery Option:
+Test the selection of delivery options (e.g., standard or expedited delivery).
+6)Limit Testing:
+Validate the behavior when adding more than 20 units of a single product to the cart, including scenarios where some units are already in the cart.
+
+API:
+    -Addind new customer
+    -Adding new transaction
+    -Changing existed customer
+    -Changing existed transaction
+    -Deleting existed customer
+    -Deleting existed transaction
+
+Compatibility:
+1)Ensure compatibility across the following browsers (Automated testing performed via Playwright).:
+    -Google Chrome
+    -Mozilla Firefox
+    -Webkit (Safari)
+
+Limitations (What Cannot Be Tested)
+1)Authorization/Authentication Testing
+Security tests are not possible due to lack of access to authentication methods or credentials.
+2)Load/Stress Testing
+Load and stress testing cannot be conducted due to the absence of a dedicated test environment.
+3)Survival/Recovery Testing
+Testing for system recovery and failure handling is not feasible due to the lack of an appropriate test setup.
+4)Mobile Compatibility Testing
+The mobile UI differs significantly from the desktop version, requiring a complete rewrite of tests
